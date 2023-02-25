@@ -1,0 +1,76 @@
+---
+title: "Hotel_Booking_Satisfaction"
+author: "Bensu"
+date: "2023-02-20"
+output: html_document
+---
+
+#VERIMIZI CAGIRALIM
+
+```{r}
+install.packages("readxl")
+library("readxl")
+
+Hotel_Booking_Satisfaction <- read.csv("Hotel_Booking_Satisfaction.csv", header = TRUE, sep=";", stringsAsFactors = FALSE)
+View(Hotel_Booking_Satisfaction)
+
+```
+
+#VERI SETI YAPISINA BAKALIM
+
+```{r}
+class(Hotel_Booking_Satisfaction)
+
+dim(Hotel_Booking_Satisfaction)
+
+names(Hotel_Booking_Satisfaction)
+
+install.packages("dplyr")
+library(dplyr)
+
+glimpse(Hotel_Booking_Satisfaction)
+```
+Veri setimizin 103904 satir ve 12 sutundan olustugunu gorduk. 
+Toplam 12 degiskenimizin oldugunu ve bunlarin neler ise names fonksiyonuyla elde ettik. glimpse fonksiyonu ile veri setimizin yapisina daha detayli baktik. 
+
+#VERIYI DUZENLEYELIM 
+
+```{r}
+
+install.packages("stringr")
+library(stringr)
+
+summary(Hotel_Booking_Satisfaction)
+na.omit(Hotel_Booking_Satisfaction)
+
+```
+summary fonksiyonu ile uc degerlerimize baktik, bir anormallik olmadigini ve herhangi bir bos deger olmadigini gorduk. 
+
+
+#VERIYI ANALIZ EDELIM
+
+summary tablosuna baktigimizda otelle ilgili kriterlerde min degerinin 0, max degerinin ise 5 oldugunu gormustuk. 
+
+
+#Otelin konforunu inceleyelim.
+
+```{r}
+install.packages("dplyr")
+library(dplyr)
+comfort <- Hotel_Booking_Satisfaction %>%
+  filter(Stay.comfort >=3)
+comfort
+
+```
+Buradan otelin konforu icin 3 ve üzeri degerlendirme yaparak oteli konforlu bulan kisi sayisinin 76931 oldugunu gorduk.
+
+
+#Cinsiyeti kadin olan ve oteli temiz bulmayan kisilere bakalim. 
+
+```{r}
+female_cleanliness <- Hotel_Booking_Satisfaction %>%
+  filter(Gender == "Female" & (Cleanliness <= 2))
+female_cleanliness
+
+```
+Buradan 14849 kadin misafirin temizlik degiskeni icin 3'ten az puan vererek oteli temiz bulmadiklarini soyleyebiliriz.
